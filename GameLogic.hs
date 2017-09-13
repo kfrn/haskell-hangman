@@ -1,7 +1,5 @@
 module GameLogic (GameState, displayHangmanWord, wrongGuesses, livesRemaining, guessLetter, GuessResult(..),  createInitialState) where
-
 import Data.Char as Char
-
 
 data GameState = GameState { guessedLetters :: [Char], hangmanWord :: String , totalLives :: Int}
 
@@ -38,14 +36,14 @@ gameInProgress state = not (gameLost state) && not (gameWon state)
 data GuessResult = Invalid
            | AlreadyGuessed
            | Valid GameState
-           | Won
+           | Won String
            | Lost String
 
 guessLetter :: GameState -> Char -> GuessResult
 guessLetter state guess | letterInString guess (guessedLetters state) = AlreadyGuessed
 guessLetter state guess | Char.isLetter guess =
    if gameWon newState
-   then Won
+   then Won (hangmanWord state)
    else if gameLost newState
      then Lost (hangmanWord state)
      else Valid newState
