@@ -20,9 +20,9 @@ printGameInfo state = do
   putStrLn ("The word is: " ++ displayHangmanWord state)
   let incorrectGuesses = wrongGuesses state
   if null incorrectGuesses
-    then putStrLn
+    then putStr ""
+    else putStrLn
            ("Your incorrect guesses: " ++ List.intersperse ',' incorrectGuesses)
-    else putStr ""
   putStrLn ("You have " ++ show (livesRemaining state) ++ " lives remaining.")
 
 guessResult :: GameState -> String -> IO ()
@@ -33,7 +33,7 @@ guessResult state message = do
 playHangman :: GameState -> IO ()
 playHangman state = do
   printGameInfo state
-  putStr "Guess a letter!: "
+  putStrLn "Guess a letter!: "
   input <- getLine
   case input of
     [guess] -> performGuess state guess
